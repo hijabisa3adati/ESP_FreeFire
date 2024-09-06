@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دفع المبلغ</title>
+</head>
+<body>
+    <h1>مرحبًا بك في موقعنا</h1>
+    <p>يرجى دفع 500 دينار جزائري لمتابعة استخدام الموقع.</p>
+    <button id="payButton">ادفع الآن</button>
+
+    <script>
+        document.getElementById("payButton").onclick = function() {
+            fetch('/process-payment', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("تم الدفع بنجاح!");
+                    window.location.reload(); // إعادة تحميل الصفحة بعد الدفع
+                } else {
+                    alert("حدث خطأ أثناء الدفع.");
+                }
+            });
+        };
+
+        window.onload = function() {
+            // تحقق مما إذا كان المستخدم قد دفع
+            fetch('/check-payment-status')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.paid) {
+                    alert("يجب دفع 500 دينار جزائري لمتابعة استخدام الموقع");
+                }
+            });
+        };
+    </script>
+</body>
+</html>
