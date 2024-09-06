@@ -1,0 +1,27 @@
+const express = require('express');
+const app = express();
+
+// هذه البيانات يجب تغييرها بناءً على بوابة الدفع التي تستخدمها
+const ACCOUNT_NUMBER = "0017701618";
+const PAYMENT_AMOUNT = 500;
+
+// افتراض تخزين حالة الدفع مؤقتًا (للتوضيح فقط)
+let userPaid = false;
+
+app.use(express.json());
+
+app.post('/process-payment', (req, res) => {
+    // هنا يجب أن يتم التكامل مع بوابة الدفع
+    // مثال بسيط للتوضيح: اعتبر الدفع ناجحًا
+    userPaid = true;
+    
+    res.json({ success: true });
+});
+
+app.get('/check-payment-status', (req, res) => {
+    res.json({ paid: userPaid });
+});
+
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
